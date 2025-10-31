@@ -16,7 +16,7 @@ const logger = setInterval(getStringNow, 5000);
 app.get("/", (request, response) => {
   const date = new Date();
 
-  response.json({ log: `${date.toISOString()} ${string}` });
+  response.send(`<p>${date.toISOString()} ${string}</p>`);
 });
 
 const PORT = process.env.PORT || 3001;
