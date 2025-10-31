@@ -14,4 +14,7 @@ spec:
     spec:
       containers:
         - name: log-output
-          image: log-output
+          image: fialco/log-output:1.1
+          env:
+            - name: PORT
+              value: "3000"

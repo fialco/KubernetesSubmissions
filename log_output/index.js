@@ -1,13 +1,25 @@
 const crypto = require("crypto");
+const express = require("express");
+
+const app = express();
+app.use(express.json());
 
 const string = crypto.randomUUID();
 
 const getStringNow = () => {
-  const date = new Date();
-
-  console.log(date.toISOString(), string);
-
-  setTimeout(getStringNow, 5000);
+  const dateLog = new Date();
+  console.log(dateLog.toISOString(), string);
 };
 
-getStringNow();
+const logger = setInterval(getStringNow, 5000);
+
+app.get("/", (request, response) => {
+  const date = new Date();
+
+  response.json({ log: `${date.toISOString()} ${string}` });
+});
+
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server started in port ${PORT}`);
+});
