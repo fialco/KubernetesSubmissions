@@ -1,20 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-output
+  name: logs-dep
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log-output
+      app: logs
   template:
     metadata:
       labels:
-        app: log-output
+        app: logs
     spec:
+      volumes:
+        - name: shared-logs
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: fialco/log-output:1.1
+        - name: log-provider
+          image: fialco/log-provider:1.0
           env:
             - name: PORT
               value: "3000"
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
+        - name: log-generator
+          image: fialco/log-generator:1.1
+          env:
+            - name: PORT
+              value: "3000"
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /usr/src/app/files
