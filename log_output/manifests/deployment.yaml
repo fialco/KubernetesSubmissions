@@ -14,10 +14,11 @@ spec:
     spec:
       volumes:
         - name: shared-logs
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: log-provider
-          image: fialco/log-provider:1.0
+          image: fialco/log-provider:1.1
           env:
             - name: PORT
               value: "3000"
