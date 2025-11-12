@@ -12,9 +12,16 @@ spec:
       labels:
         app: todo-app
     spec:
+      volumes:
+        - name: todo-vol
+          persistentVolumeClaim:
+            claimName: image-claim
       containers:
         - name: todo-app
-          image: fialco/todo-app:1.1
+          image: fialco/todo-app:1.2.4
           env:
             - name: PORT
               value: "3000"
+          volumeMounts:
+            - name: todo-vol
+              mountPath: /usr/src/app/files
