@@ -18,7 +18,7 @@ spec:
             claimName: image-claim
       containers:
         - name: todo-app
-          image: fialco/todo-app:1.2.4
+          image: fialco/todo-app:1.3
           env:
             - name: PORT
               value: "3000"
