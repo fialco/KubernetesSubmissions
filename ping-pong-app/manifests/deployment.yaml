@@ -12,16 +12,16 @@ spec:
       labels:
         app: ping-pong-app
     spec:
-      volumes:
-        - name: shared-logs
-          persistentVolumeClaim:
-            claimName: image-claim
+      #volumes:
+      #  - name: shared-logs
+      #    persistentVolumeClaim:
+      #      claimName: image-claim
       containers:
         - name: ping-pong
-          image: fialco/ping-pong:1.1
+          image: fialco/ping-pong:1.2
           env:
             - name: PORT
               value: "3000"
-          volumeMounts:
-            - name: shared-logs
-              mountPath: /usr/src/app/files
+          #volumeMounts:
+          #  - name: shared-logs
+          #    mountPath: /usr/src/app/files

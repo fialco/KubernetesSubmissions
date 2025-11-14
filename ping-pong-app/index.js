@@ -23,6 +23,11 @@ app.get("/pingpong", (req, response) => {
   response.send(`<p>pong ${pongs}</p>`);
 });
 
+app.get("/pings", (req, response) => {
+  const pongs = getPongCount();
+  response.send(pongs);
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server started in port ${PORT}`);

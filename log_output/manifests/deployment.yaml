@@ -18,7 +18,7 @@ spec:
             claimName: image-claim
       containers:
         - name: log-provider
-          image: fialco/log-provider:1.1
+          image: fialco/log-provider:1.2.3
           env:
             - name: PORT
               value: "3000"
