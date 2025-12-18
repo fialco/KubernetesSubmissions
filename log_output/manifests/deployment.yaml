@@ -17,15 +17,30 @@ spec:
         - name: shared-logs
           persistentVolumeClaim:
             claimName: image-claim
+        - name: config-vol
+          configMap:
+            name: log-config
+            items:
+              - key: information.txt
+                path: information.txt
       containers:
         - name: log-provider
-          image: fialco/log-provider:1.2.3
+          image: fialco/log-provider:1.3.7
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               value: "3000"
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-config
+                  key: MESSAGE
           volumeMounts:
             - name: shared-logs
               mountPath: /usr/src/app/files
+            - name: config-vol
+              mountPath: /usr/src/app/config
+              readOnly: true
         - name: log-generator
           image: fialco/log-generator:1.1
           env:

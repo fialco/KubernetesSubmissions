@@ -7,12 +7,15 @@ app.use(express.json());
 
 app.get("/", async (request, response) => {
   const logs = fs.readFileSync("files/log.txt", "utf8");
+  const information = fs.readFileSync("config/information.txt", "utf8");
+  const MESSAGE = process.env.MESSAGE || "No message";
+
   const pongs = await axios.get("http://ping-pong-svc:2345/pings");
 
   const lines = logs.split("\n");
   const last = lines[lines.length - 2];
 
-  const page = `<div><p>${last}</p><p>Ping / Pongs: ${pongs.data}</p></div>`;
+  const page = `<div><p>file content: ${information}</p><p>env variable: MESSAGE=${MESSAGE}</p><p>${last}</p><p>Ping / Pongs: ${pongs.data}</p></div>`;
   response.send(page);
 });
 
