@@ -8,16 +8,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 //app.use(express.static("dist"));
-app.use("/files", express.static(path.join(__dirname, "files")));
 
-const prodPath = path.join("/", "usr", "src", "app", "files");
-const devPath = path.join(__dirname, "files");
-
-const filePath = path.join(prodPath, "image.jpg");
+const filesPath = path.join(__dirname, "files");
+app.use("/files", express.static(filesPath));
+const image = path.join(filesPath, "image.jpg");
 
 const fileAlreadyExists = async () =>
   new Promise((res) => {
-    fs.stat(filePath, (err, stats) => {
+    fs.stat(image, (err, stats) => {
       if (err || !stats) return false;
       return true;
     });
@@ -29,7 +27,7 @@ const downloadLatestImage = async () => {
     responseType: "stream",
   });
 
-  response.data.pipe(fs.createWriteStream(filePath));
+  response.data.pipe(fs.createWriteStream(image));
   return true;
 };
 
@@ -50,7 +48,7 @@ app.get("/api/image", async (req, res) => {
     downloadLatestImage();
   }
 
-  const img = fs.readFileSync(filePath);
+  const img = fs.readFileSync(image);
   res.set("Content-Type", "image/jpg");
   res.send(img);
 });

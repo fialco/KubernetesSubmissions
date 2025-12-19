@@ -19,10 +19,13 @@ spec:
             claimName: image-claim
       containers:
         - name: todo-app
-          image: fialco/todo-app:1.4.7
+          image: fialco/todo-app:1.5.0
+          imagePullPolicy: IfNotPresent
           env:
             - name: PORT
               value: "5173"
+            - name: baseUrl
+              value: "http://todo-backend-svc"
           volumeMounts:
             - name: todo-vol
               mountPath: /usr/src/app/files
